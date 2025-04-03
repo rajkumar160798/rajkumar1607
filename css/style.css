@@ -279,7 +279,8 @@ table {
 }
 /* ==========================================================================Section Styles========================================================================== */
 .section-padding {
-	padding:90px 0 100px
+	padding:90px 0 100px;
+	animation: fadeIn 1s ease-in-out;
 }
 .dark-bg {
 	background:#f3f5f8;
@@ -449,34 +450,24 @@ table {
 }
 /* ==========================================================================Hero========================================================================== */
 .hero {
-	background: url('../img/header-bg.jpg') right bottom no-repeat;
-	background-size: contain;
-	padding:110px 0 100px 0;
-	height:auto;
-	background-color: #FBFBFB;
+  background: linear-gradient(to bottom, #1e1e2f, #3a3a5f);
+  color: #fff;
+  text-align: center;
+  padding: 100px 0;
 }
+
 .hero h1 {
-	font-size: 100px;
-	letter-spacing: -8px;
-	margin: 0;
-	font-weight: 600;
-	line-height: 95px;
-	text-transform: uppercase;
+  font-size: 3rem;
+  font-weight: bold;
+  margin-bottom: 20px;
 }
-.hero h1 span {
-	color:#a1a9b0;
-	/* display:inline-block; */
-}
+
 .hero h3 {
-	font-size: 12px;
-	margin:0;
-	padding:0;
-	opacity:0.5;
-	color: #e04343;
-	letter-spacing: 18px;
-	line-height: 50px;
-	text-transform: uppercase;
+  font-size: 1.5rem;
+  font-weight: 300;
+  color: #ffe800;
 }
+
 .hero p {
 	letter-spacing:1px;
 	color:#fff;
@@ -827,6 +818,43 @@ img.grayscale:hover {
 	margin-right:auto;
 	top: 50px;
 }
+/* Portfolio Section */
+.portfolio-item {
+  margin-bottom: 30px;
+  padding: 20px;
+  background: #f9f9f9;
+  border-radius: 10px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.portfolio-item:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 8px 12px rgba(0, 0, 0, 0.2);
+}
+
+.portfolio-title {
+  font-size: 1.5rem;
+  font-weight: bold;
+  margin-top: 15px;
+  color: #333;
+}
+
+.btn-modern {
+  display: inline-block;
+  padding: 10px 20px;
+  font-size: 1rem;
+  color: #fff;
+  background: #e04343;
+  border: none;
+  border-radius: 5px;
+  text-decoration: none;
+  transition: background 0.3s ease;
+}
+
+.btn-modern:hover {
+  background: #c0392b;
+}
 /* ==========================================================================Subscribe========================================================================== */
 .subscribe {
 	padding-top:75px;
@@ -1025,6 +1053,34 @@ ul.social-buttons li:last-child {
 button,button:focus,button:hover,button:active {
 	outline: none!important;
 }
+
+/* Contact Section */
+.contact-details .dark-box {
+  padding: 20px;
+  background: #f4f4f4;
+  border-radius: 10px;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.contact-details .dark-box:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 6px 10px rgba(0, 0, 0, 0.15);
+}
+
+.contact-details h2 {
+  font-size: 1.2rem;
+  color: #333;
+}
+
+.contact-details p a {
+  color: #e04343;
+  text-decoration: none;
+}
+
+.contact-details p a:hover {
+  text-decoration: underline;
+}
+
 /* ==========================================================================Footer========================================================================== */
 footer a {
 	color:#a1a9b0;
@@ -1238,4 +1294,31 @@ ul.slides li {
 	.subscribe {
 	    padding-bottom: 40px;
 	}
+}
+
+/* Animations */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .portfolio-item {
+    padding: 15px;
+  }
+
+  .hero h1 {
+    font-size: 2rem;
+  }
+
+  .hero h3 {
+    font-size: 1.2rem;
+  }
 }
