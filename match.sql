@@ -1,46 +1,29 @@
-with base as (
-  select distinct session_id, AH_Successful_Login, test_member_indicator, pe32_has_value
-  from `r `
-  where test_member_indicator is not null
-    and session_id is not null
-    and AH_Successful_Login is not null
-    and pe32_has_value is not null 
+WITH MonthlyData AS (
+    -- Select the month and count distinct users for that month
+    SELECT
+        CAST(year_month AS STRING) AS visit_month,
+        COUNT(DISTINCT individual_analytics_identifier) AS distinct_users
+    FROM
+        your_bigquery_table -- Replace with your actual table name
+    GROUP BY
+        visit_month
 ),
-
-step_1 as (
-  select 'Step 1: All Visits' as step, count(*) as visit_cnt from base
-),
-
-step_2 as (
-  select 'Step 2: Remove Impersonation' as step, count(*) as visit_cnt
-  from base
-  where test_member_indicator != 'IMPERSONATOR'
-),
-
-step_3 as (
-  select 'Step 3: Member Field Cleaned' as step, count(*) as visit_cnt
-  from base
-  where test_member_indicator in ('Y', 'N')
-),
-
-step_4 as (
-  select 'Step 4: Member Field Has Value' as step, count(*) as visit_cnt
-  from base
-  where test_member_indicator = 'Y'
-),
-
-step_5 as (
-  select 'Step 5: Successful Logins' as step, count(*) as visit_cnt
-  from base
-  where AH_Successful_Login = 1
+LaggedData AS (
+    -- Calculate the previous month's distinct user count
+    SELECT
+        visit_month,
+        distinct_users,
+        LAG(distinct_users, 1, 0) OVER (ORDER BY visit_month) AS previous_month_users
+    FROM
+        MonthlyData
 )
-
-select * from step_1
-union all
-select * from step_2
-union all
-select * from step_3
-union all
-select * from step_4
-union all
-select * from step_5;
+-- Final SELECT to calculate the change and format for a waterfall
+SELECT
+    visit_month,
+    previous_month_users AS start_value,
+    (distinct_users - previous_month_users) AS change,
+    distinct_users AS end_value
+FROM
+    LaggedData
+ORDER BY
+    visit_month;
